@@ -1,0 +1,292 @@
+---
+# title: "Identificación de falseamiento ENUSC"
+# author: "Marzo 2024"
+format:
+  revealjs:
+    auto-stretch: false
+    margin: 0
+    slide-number: true
+    scrollable: true
+    preview-links: auto
+    logo: imagenes/logo_portada2.png
+    css: ine_quarto_styles.css
+    # footer: <https://quarto.org>
+---
+
+#
+
+[]{.linea-superior} 
+[]{.linea-inferior} 
+
+<!---
+ <img src="imagenes/logo_portada2.png" style="width: 20%"/>  
+--->
+
+<img src="imagenes/logo_portada2.png" width="20%"/>  
+
+
+[**Clasificador de Ocupación para Encuestas Demográficas**]{.big-par .center-justified}
+[**Proyecto Ciencia de Datos**]{.medium-par.center-justified}
+
+[**Julio 2024**]{.big-par .center-justified}
+
+
+## [Contenidos]{.big-par}  
+
+<!-- ::: {.incremental} -->
+
+- Motivación
+
+- Flujo de Procesamiento (FP)
+  - [1. Lectura Bases de Entrenamiento]{.medium-par} 
+  - [2. Consolidación de Datos]{.medium-par} 
+  - [3. Procesamiento de Datos]{.medium-par} 
+  - [4. Entrenamiento del Modelo]{.medium-par} 
+
+- Evaluación del Modelo
+  
+- Conclusión
+<!-- ::: -->
+
+
+
+## [Motivación]{.big-par}
+
+::: {.incremental .medium-par}
+- Existen ~635,000 registros de ocupación de personas **activas** e **inactivas** que deben ser clasificadas para el año 2022 en distintas bases:
+  - Defunciones: 17,451 activas y 117,511 inactivas.
+  - Matrimonios: 103,285 activas y 33,138 inactivas.
+  - Nacimientos: 273,497 activas y 90,233 inactivas. 
+- Las ocupaciones de personas activas e inactivas son clasificadas en diferentes categorías:
+:::
+
+:::: {layout-ncol=2}
+
+::: fragment
+
+<!-- ::: {.center}
+Inactivas
+::: -->
+
+[<img src="imagenes/data/classes_inactivos.png" width="60%"/>]{.center} 
+
+:::
+
+::: fragment
+
+<!-- ::: {.center}
+Activas
+::: -->
+
+[<img src="imagenes/data/classes_activos.png" width="60%"/>]{.center} 
+
+:::
+
+<!-- []{.small-par} -->
+
+::::
+
+
+::: {.incremental .medium-par}
+- La codificación de ocupaciones es un proceso que demanda tiempo y sujeto a diferentes criterios de clasificación, lo que aumenta su complejidad. 
+  - Surge la necesidad de contar con un modelo automático de clasificación.
+:::
+
+
+<!-- ## [Flujo de Procesamiento]{.big-par}
+
+<!-- ::: {.incremental .medium-par-2}
+1. Lectura Bases de Entrenamiento. <br><br>
+2. Consolidación de Datos. <br><br>
+3. Procesamiento de Datos. <br><br>
+4. Entrenamiento del Modelo. <br><br>
+5. Evaluación del Modelo.
+::: -->
+
+<!-- . . .
+
+::: {.center}
+![](imagenes/data_ochestration_landscape.png){width="70%"}
+::: -->
+
+
+## [FP | 1. Lectura Bases de Entrenamiento]{.big-par}
+
+::: {.center}
+![](imagenes/data/data_processing_worfkflow_read_data.png){width="100%"}
+:::
+
+
+
+## [FP | 2. Consolidación de Datos]{.big-par}
+
+::: {.incremental .medium-par}
+- Datos son consolidadas en una gran tabla común, que incluye todas las bases de entrenamiento .
+:::
+
+. . .
+
+::: {.center}
+![](imagenes/data/data_processing_worfkflow_consolidate_data.png){width="65%"}
+:::
+
+
+
+## [FP | 3. Procesamiento de Datos]{.big-par}
+
+::: {.incremental .medium-par}
+- Glosas son simplificadas, eliminando palabras innecesarias para el entrenamiento del modelo.
+:::
+
+[]{.small-par}
+
+. . .
+
+::: {.center}
+![](imagenes/data/data_processing_worfkflow_process_data.png){width="55%"}
+:::
+
+
+
+## [FP | 4. Entrenamiento del Modelo]{.big-par}
+
+::: {.incremental .medium-par}
+- Entrenamiento por separado para personas con condición de actividad **activas** e **inactivas**, ya que la clasificación de ocupación usada difiere entre ambos casos. 
+- No se realizaron predicciones para personas con otra condición de actividad (por ejemplo cesante, ignorado, etc.).
+- Se exploraron 5 modelos de clasificación construidos con diferentes combinaciones de variables.
+  - Modelo seleccionado para **activas**: entrenamiento 80% (557,453), test 20% (139,364).
+  - Modelo seleccionado para **inactivas**: entrenamiento 80% (331,680), test 20% (82,920). 
+:::
+
+. . .
+
+::: {.small-par}
+
+| Modelo | Detalle| Ejemplo glosa
+|---|---|---|
+| 1 | Glosa original | trabajador social
+| 2 | Variables edad (numérica) + categoría, curso, nivel (categóricas)  | 
+| 3 | Glosa categórica | empleado educación superior quinto año
+| **[4]{style="color:red;"}** | **[Glosa extendida: 1 + 3]{style="color:red;"}** | **[trabajador social empleado educación superior quinto año]{style="color:red;"}**
+| 5 | Glosa extendida: 4 + edad | trabajador social edad 26 años empleado educación superior quinto año 
+
+: {tbl-colwidths="[10,30,60]"}
+
+:::
+
+
+
+## [FP | 4. Entrenamiento del Modelo]{.big-par}
+
+::: {.incremental .medium-par}
+- Como modelo se usó una red neural recurrente LSTM (Long Short-Term Memory), que es una arquitectura diseñada especialmente para aprender dependencias en datos en secuencia (ejemplo: una glosa de texto).
+- Para mejorar el aprendizaje del modelo, se agregó una capa de word embedding...
+  - TODO: BREVE DESCRIPCIÓN DE WORD EMBEDDINGS.
+:::
+
+
+
+## [Evaluación del Modelo: Inactivos | Métricas]{.big-par}
+
+::: {.center}
+![](imagenes/model/model_metrics_inactivos.png){width="90%"}
+:::
+
+
+
+## [Evaluación del Modelo: Inactivos | Codificación Manual]{.big-par}
+
+::: {.r-stack fragment-index=2 .center}
+
+![](imagenes/model/model_manual_codification_inactivos_1.png){.fragment .fade-in-then-out width="100%"}
+
+![](imagenes/model/model_manual_codification_inactivos_2.png){.fragment .fade-in-then-out width="100%"}
+
+![](imagenes/model/model_manual_codification_inactivos_3.png){.fragment .fade-in-then-out width="100%"}
+
+![](imagenes/model/model_manual_codification_inactivos_4.png){.fragment .fade-in-then-out width="100%"}
+
+:::
+
+
+
+## [Evaluación del Modelo: Activos | Métricas]{.big-par}
+
+::: {.center}
+![](imagenes/model/model_metrics_activos.png){width="90%"}
+:::
+
+
+
+## [Evaluación del Modelo: Activos | Codificación Manual]{.big-par}
+
+::: {.r-stack fragment-index=2 .center}
+
+![](imagenes/model/model_manual_codification_activos_1.png){.fragment .fade-in-then-out width="100%"}
+
+![](imagenes/model/model_manual_codification_activos_2.png){.fragment .fade-in-then-out width="100%"}
+
+![](imagenes/model/model_manual_codification_activos_3.png){.fragment .fade-in-then-out width="100%"}
+
+![](imagenes/model/model_manual_codification_activos_4.png){.fragment .fade-in-then-out width="100%"}
+
+:::
+
+
+
+## [Evaluación del Modelo: Activos | Predicciones "Falsas"]{.big-par}
+
+::: {.r-stack fragment-index= .center}
+
+![](imagenes/model/model_prediction_activos_classes_pred_2_true_3_1.png){.fragment .fade-in-then-out width="85%"}
+
+![](imagenes/model/model_prediction_activos_classes_pred_3_true_2_1.png){.fragment .fade-in-then-out width="85%"}
+
+![](imagenes/model/model_prediction_activos_classes_pred_3_true_X_1.png){.fragment .fade-in-then-out width="85%"}
+
+![](imagenes/model/model_prediction_activos_classes_pred_7_true_X_1.png){.fragment .fade-in-then-out width="85%"}
+
+![](imagenes/model/model_prediction_activos_classes_pred_X_true_2_1.png){.fragment .fade-in-then-out width="85%"}
+
+![](imagenes/model/model_prediction_activos_classes_pred_X_true_2_2.png){.fragment .fade-in-then-out width="85%"}
+
+:::
+
+
+
+## [Conclusión]{.big-par}
+
+::: {.incremental .medium-par}
+- Se consiguió entrenar **dos modelos clasificadores de ocupaciones** que muestran una alta precisión (*accuracy*): **0.95** en registros **activos** y **0.99** en **inactivos**.
+<!-- - Se compartió un [repo](https://github.com/inesscc/ciuo88) con instrucciones para ejecutar tanto el flujo de procesamiento de datos, el entrenamiento o para obtener clasificaciones en nuevos registros. -->
+- La probabilidad con que cada modelo predice una ocupación es un parámetro que permite estimar el **% de clasificación manual** requerido por parte de analistas:
+  - Para el clasificador de personas **inactivas**, usar:
+    - una alta prob (0.98) implica clasificar manualmente el 0.67% de registros (1,613),
+    - mientras una baja prob (0.72) implica hacerlo para el 0.01% de registros (24), casi sin pérdida en *accuracy*.
+  - Para el clasificador de personas **activas**, usar:
+    - una alta prob (0.98) implica clasificar manualmente el 15.3% de los registros (60,474).
+    - mientras una baja prob (0.50) implica hacerlo para el 0.53% de registros (2,079), con una dismunición en *accuracy* del 3% (0.993 a 0.961).
+- Ocupaciones predichas *incorrectamente* por el **clasificador de personas activas**: 
+  - En su mayoría pueden explicarse por las palabras comunes en las glosas de la clase predicha.
+  - En particular, glosas mal escritas tienden a hacer clasificadas en la clase **ignorado (X)**. 
+    - A futuro esto puede mejorarse **corrigiendo dichas glosas** o **perfeccionando el modelo** para aprender mejor la estructura interna de las palabras.
+- **Nuestra recomendación:** ambos clasificadores muestran una robustez suficiente y pueden ser usados minimizando lo más posible la codificación manual.
+:::
+
+
+
+#
+
+[<img src="imagenes/logo_portada2.png" width="20%"/>]{.center}
+
+[**Clasificador de Ocupación para Encuestas Demográficas**]{.big-par .center-justified}
+[**Proyecto Ciencia de Datos**]{.medium-par.center-justified}
+
+[**Julio 2024**]{.big-par .center-justified}
+
+
+[]{.linea-superior} 
+[]{.linea-inferior} 
+
+
+

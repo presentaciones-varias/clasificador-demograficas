@@ -25,8 +25,9 @@ format:
 <img src="imagenes/logo_portada2.png" width="20%"/>  
 
 
-[**Clasificador de Ocupación para Encuestas Demográficas**]{.big-par .center-justified}
-[**Proyecto Ciencia de Datos**]{.medium-par.center-justified}
+[**Clasificador de Ocupación CIUO-88**]{.big-par .center-justified}
+[**Subdepartamento de Estadísticas Demográficas y Vitales**]{.big-par .center-justified}
+[**Ciencia de Datos**]{.medium-par.center-justified}
 
 [**Julio 2024**]{.big-par .center-justified}
 
@@ -280,8 +281,9 @@ Activas
 
 [<img src="imagenes/logo_portada2.png" width="20%"/>]{.center}
 
-[**Clasificador de Ocupación para Encuestas Demográficas**]{.big-par .center-justified}
-[**Proyecto Ciencia de Datos**]{.medium-par.center-justified}
+[**Clasificador de Ocupación CIUO-88**]{.big-par .center-justified}
+[**Subdepartamento de Estadísticas Demográficas y Vitales**]{.big-par .center-justified}
+[**Ciencia de Datos**]{.medium-par.center-justified}
 
 [**Julio 2024**]{.big-par .center-justified}
 

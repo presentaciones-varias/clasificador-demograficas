@@ -179,9 +179,10 @@ Activas
 ## [FP | 4. Entrenamiento del Modelo]{.big-par}
 
 ::: {.incremental .medium-par}
-- Como modelo se usó una red neural recurrente LSTM (Long Short-Term Memory), que es una arquitectura diseñada especialmente para aprender dependencias en datos en secuencia (ejemplo: una glosa de texto).
-- Para mejorar el aprendizaje del modelo, se agregó una capa de word embedding...
-  - TODO: BREVE DESCRIPCIÓN DE WORD EMBEDDINGS.
+- Como modelo se usó una red neural recurrente LSTM (Long Short-Term Memory), que es una arquitectura diseñada especialmente para aprender dependencias en datos que forman secuencias (ejemplo: una glosa de texto).
+- Para mejorar el aprendizaje del modelo, se agregó una capa preliminar que incluye [word embeddings](https://github.com/dccuchile/spanish-word-embeddings/) pre-entrenados.
+  - Los embeddings son representaciones de palabras como vectores numéricos, que permiten modelar la relación semántica entre palabras.
+  - En nuestro caso, los embeddings capturan la relación entre palabras en las glosas de entrenamiento, lo que beneficia al entrenamiento del modelo.
 :::
 
 

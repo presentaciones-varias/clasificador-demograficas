@@ -58,7 +58,7 @@ format:
   - Defunciones: 17,451 activas y 117,511 inactivas.
   - Matrimonios: 103,285 activas y 33,138 inactivas.
   - Nacimientos: 273,497 activas y 90,233 inactivas. 
-- Las ocupaciones de personas activas e inactivas son clasificadas en diferentes categorías:
+- Las ocupaciones de personas **activas e inactivas** son clasificadas en **diferentes categorías**:
 :::
 
 :::: {layout-ncol=2}
@@ -89,8 +89,8 @@ Activas
 
 
 ::: {.incremental .medium-par}
-- La codificación de ocupaciones es un proceso que demanda tiempo y sujeto a diferentes criterios de clasificación, lo que aumenta su complejidad. 
-  - Surge la necesidad de contar con un modelo automático de clasificación.
+- La codificación de ocupaciones es un proceso que **demanda tiempo y sujeto a diferentes criterios de clasificación**, lo que aumenta su complejidad. 
+  - Surge la necesidad de contar con un **modelo automático de clasificación**.
 :::
 
 
